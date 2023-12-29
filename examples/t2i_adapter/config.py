@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import List
 
 
 @dataclass
@@ -14,8 +15,8 @@ class TrainingConfig:
     train_batch_size: int
     gradient_accumulation_steps: int
 
-    validation_image: str
-    validation_prompt: str
+    validation_image: List[str]
+    validation_prompt: List[str]
     validation_steps: int
     report_to: str
 
@@ -33,8 +34,8 @@ training_config = TrainingConfig(
     train_batch_size=1,
     gradient_accumulation_steps=4,
 
-    validation_image='./validation/conditioning_image_1.png',
-    validation_prompt='red circle with blue background',
+    validation_image=['./validation/conditioning_image_1.png', './conditioning_image_2.png'],
+    validation_prompt=['red circle with blue background', 'cyan circle with brown floral background'],
     validation_steps=100,
     report_to='tensorboard',
     seed=42,
