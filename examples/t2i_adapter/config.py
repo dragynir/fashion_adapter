@@ -26,7 +26,7 @@ class TrainingConfig:
 training_config = TrainingConfig(
     pretrained_model_name_or_path='stabilityai/stable-diffusion-xl-base-1.0',
     output_dir='./training_logs',
-    dataset_name='fusing/fill50k',
+    dataset_name='./fill50k_hug',  # 'fusing/fill50k',
     mixed_precision='fp16',
     resolution=1024,
     learning_rate=1e-5,
