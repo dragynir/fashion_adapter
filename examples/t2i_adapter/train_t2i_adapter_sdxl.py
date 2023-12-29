@@ -50,9 +50,7 @@ from diffusers import (
 from diffusers.optimization import get_scheduler
 from diffusers.utils import check_min_version, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
-from config import TrainingConfig
-
-training_config = TrainingConfig()
+from config import training_config
 
 
 MAX_SEQ_LENGTH = 77
