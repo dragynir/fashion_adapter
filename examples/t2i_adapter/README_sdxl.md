@@ -21,6 +21,7 @@ pip install -e .
 Then cd in the `examples/t2i_adapter` folder and run
 ```bash
 pip install -r requirements.txt
+pip install transformers==4.25.1
 ```
 
 And initialize an [🤗Accelerate](https://github.com/huggingface/accelerate/) environment with:
