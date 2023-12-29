@@ -50,6 +50,9 @@ from diffusers import (
 from diffusers.optimization import get_scheduler
 from diffusers.utils import check_min_version, is_wandb_available
 from diffusers.utils.import_utils import is_xformers_available
+from config import TrainingConfig
+
+training_config = TrainingConfig()
 
 
 MAX_SEQ_LENGTH = 77
@@ -236,8 +239,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--pretrained_model_name_or_path",
         type=str,
-        default=None,
-        required=True,
+        default=training_config.pretrained_model_name_or_path,
         help="Path to pretrained model or model identifier from huggingface.co/models.",
     )
     parser.add_argument(
@@ -278,7 +280,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--output_dir",
         type=str,
-        default="t2iadapter-model",
+        default=training_config.output_dir,
         help="The output directory where the model predictions and checkpoints will be written.",
     )
     parser.add_argument(
@@ -287,11 +289,11 @@ def parse_args(input_args=None):
         default=None,
         help="The directory where the downloaded models and datasets will be stored.",
     )
-    parser.add_argument("--seed", type=int, default=None, help="A seed for reproducible training.")
+    parser.add_argument("--seed", type=int, default=training_config.seed, help="A seed for reproducible training.")
     parser.add_argument(
         "--resolution",
         type=int,
-        default=1024,
+        default=training_config.resolution,
         help=(
             "The resolution for input images, all the images in the train/validation dataset will be resized to this"
             " resolution"
@@ -319,13 +321,13 @@ def parse_args(input_args=None):
         help=("Coordinate for (the height) to be included in the crop coordinate embeddings needed by SDXL UNet."),
     )
     parser.add_argument(
-        "--train_batch_size", type=int, default=4, help="Batch size (per device) for the training dataloader."
+        "--train_batch_size", type=int, default=training_config.train_batch_size, help="Batch size (per device) for the training dataloader."
     )
     parser.add_argument("--num_train_epochs", type=int, default=1)
     parser.add_argument(
         "--max_train_steps",
         type=int,
-        default=None,
+        default=training_config.max_train_steps,
         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",
     )
     parser.add_argument(
@@ -358,7 +360,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--gradient_accumulation_steps",
         type=int,
-        default=1,
+        default=training_config.gradient_accumulation_steps,
         help="Number of updates steps to accumulate before performing a backward/update pass.",
     )
     parser.add_argument(
@@ -369,7 +371,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--learning_rate",
         type=float,
-        default=5e-6,
+        default=training_config.learning_rate,
         help="Initial learning rate (after the potential warmup period) to use.",
     )
     parser.add_argument(
@@ -439,7 +441,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--report_to",
         type=str,
-        default="tensorboard",
+        default=training_config.report_to,
         help=(
             'The integration to report the results and logs to. Supported platforms are `"tensorboard"`'
             ' (default), `"wandb"` and `"comet_ml"`. Use `"all"` to report to all integrations.'
@@ -448,7 +450,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--mixed_precision",
         type=str,
-        default=None,
+        default=training_config.mixed_precision,
         choices=["no", "fp16", "bf16"],
         help=(
             "Whether to use mixed precision. Choose between fp16 and bf16 (bfloat16). Bf16 requires PyTorch >="
@@ -471,7 +473,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--dataset_name",
         type=str,
-        default=None,
+        default=training_config.dataset_name,
         help=(
             "The name of the Dataset (from the HuggingFace hub) to train on (could be your own, possibly private,"
             " dataset). It can also be a path pointing to a local copy of a dataset in your filesystem,"
@@ -527,7 +529,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--validation_prompt",
         type=str,
-        default=None,
+        default=training_config.validation_prompt,
         nargs="+",
         help=(
             "A set of prompts evaluated every `--validation_steps` and logged to `--report_to`."
@@ -538,7 +540,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--validation_image",
         type=str,
-        default=None,
+        default=training_config.validation_image,
         nargs="+",
         help=(
             "A set of paths to the t2iadapter conditioning image be evaluated every `--validation_steps`"
@@ -556,7 +558,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--validation_steps",
         type=int,
-        default=100,
+        default=training_config.validation_steps,
         help=(
             "Run validation every X steps. Validation consists of running the prompt"
             " `args.validation_prompt` multiple times: `args.num_validation_images`"
