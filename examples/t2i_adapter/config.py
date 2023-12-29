@@ -33,8 +33,8 @@ training_config = TrainingConfig(
     train_batch_size=1,
     gradient_accumulation_steps=4,
 
-    validation_image='./validation/conditioning_image_1.png" "./validation/conditioning_image_2.png',
-    validation_prompt='red circle with blue background" "cyan circle with brown floral background',
+    validation_image='./validation/conditioning_image_1.png',
+    validation_prompt='red circle with blue background',
     validation_steps=100,
     report_to='tensorboard',
     seed=42,
