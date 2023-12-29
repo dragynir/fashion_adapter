@@ -1,4 +1,4 @@
-
+from dataclasses import dataclass
 
 @dataclass
 class TrainingConfig:
@@ -22,7 +22,7 @@ class TrainingConfig:
     def __post_init__(self):
         self.pretrained_model_name_or_path = 'stabilityai/stable-diffusion-xl-base-1.0'
         self.output_dir = './training_logs'
-        self.dataset_name = 'fusing/fill50k'
+        self.dataset_name = './fill50k'
 
         self.mixed_precision = 'fp16'
         self.resolution = 1024
