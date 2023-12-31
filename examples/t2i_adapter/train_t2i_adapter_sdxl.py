@@ -821,6 +821,7 @@ def main(args):
     # Далее подробно посмотрим в каких частях пайплайна он участвует
     # Конфиг sheduler из .cache/huggingface
 
+    #!!! Подробнее про реализацию https://github.com/crowsonkb/k-diffusion/blob/481677d114f6ea445aa009cf5bd7a9cdee909e47/k_diffusion/sampling.py#L51
     #!!! Подробнее видео про сэмплинг https://www.youtube.com/watch?v=HoKDTa5jHvg&t=934s&ab_channel=Outlier
     # {
     #     "_class_name": "EulerDiscreteScheduler",
