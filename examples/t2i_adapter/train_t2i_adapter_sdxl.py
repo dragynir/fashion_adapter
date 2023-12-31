@@ -722,7 +722,7 @@ def main(args):
     accelerator = Accelerator(
         gradient_accumulation_steps=args.gradient_accumulation_steps,  # сколько будем накапливать forward пассов для вычисления градиента
         # Смешанная точность — это использование 16-битных и 32-битных типов с плавающей запятой в модели во время обучения, чтобы она работала быстрее и использовала меньше памяти.
-        # Почитать https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html
+        #!!! Подробнее https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html
         mixed_precision=args.mixed_precision,  # обучение с ["no", "fp16", "bf16"]
         # Выбираем логгер (wandb или tensorboard)
         log_with=args.report_to,
@@ -816,6 +816,8 @@ def main(args):
     )
 
     # Load scheduler and models
+    # This is a fast scheduler which can often generate good outputs in 20-30 steps
+    #
     noise_scheduler = EulerDiscreteScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
 
