@@ -913,8 +913,9 @@ def main(args):
     )
     # Variational Autoencoder, который нужен для создания латентов из изображения и наоборот
     # Нужен для сжатия изображения
-    # Конфиг
     #!! Подробнее https://huggingface.co/stabilityai/sdxl-vae
+    #!! https://github.com/huggingface/diffusers/blob/v0.25.0/src/diffusers/models/autoencoders/autoencoder_kl.py#L35
+    # Конфиг
     # {
     #     "_class_name": "AutoencoderKL",
     #     "_diffusers_version": "0.20.0.dev0",
