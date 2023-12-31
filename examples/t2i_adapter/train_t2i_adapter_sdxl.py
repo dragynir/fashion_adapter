@@ -844,7 +844,8 @@ def main(args):
     noise_scheduler = EulerDiscreteScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
     # CLIPTextModel
-    # Модель, которая кодирует индексы токенов в эмбеддинги
+    # https://arxiv.org/pdf/2103.00020.pdf
+    # Модель на основе трансформеров, которая кодирует индексы токенов в эмбеддинги
     # {
     #     "architectures": [
     #         "CLIPTextModel"
@@ -874,7 +875,7 @@ def main(args):
     )
 
     # CLIPTextModelWithProjection
-    # Модель, которая кодирует индексы токенов в эмбеддинги
+    # Модель на основе трансформеров, которая кодирует индексы токенов в эмбеддинги
     # {
     #     "architectures": [
     #         "CLIPTextModelWithProjection"
