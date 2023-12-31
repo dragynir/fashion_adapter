@@ -956,6 +956,7 @@ def main(args):
     )
 
     # Unet like модель для денойзинга на латентах (pretrained)
+    # Тут нужно разобраться как добавить свой condition к Unet
     # Конфиг
     # {
     #     "_class_name": "UNet2DConditionModel",
