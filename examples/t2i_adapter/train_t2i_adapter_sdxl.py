@@ -715,12 +715,18 @@ def collate_fn(examples):
 def main(args):
     logging_dir = Path(args.output_dir, args.logging_dir)
 
+    # Configuration for the Accelerator object based on inner-project needs.
     accelerator_project_config = ProjectConfiguration(project_dir=args.output_dir, logging_dir=logging_dir)
 
+    # Creates an instance of an accelerator for distributed training (on multi-GPU, TPU) or mixed precision training.
     accelerator = Accelerator(
-        gradient_accumulation_steps=args.gradient_accumulation_steps,
-        mixed_precision=args.mixed_precision,
+        gradient_accumulation_steps=args.gradient_accumulation_steps,  # сколько будем накапливать forward пассов для вычисления градиента
+        # Смешанная точность — это использование 16-битных и 32-битных типов с плавающей запятой в модели во время обучения, чтобы она работала быстрее и использовала меньше памяти.
+        # Почитать https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html
+        mixed_precision=args.mixed_precision,  # обучение с ["no", "fp16", "bf16"]
+        # Выбираем логгер (wandb или tensorboard)
         log_with=args.report_to,
+        # accelerator конфиг
         project_config=accelerator_project_config,
     )
 
@@ -730,11 +736,16 @@ def main(args):
         datefmt="%m/%d/%Y %H:%M:%S",
         level=logging.INFO,
     )
+    # Log Singleton class that has information about the current training environment.
     logger.info(accelerator.state, main_process_only=False)
+
+    # True for one process per server - root process
     if accelerator.is_local_main_process:
+        # Настраиваем логирование для главного процесса
         transformers.utils.logging.set_verbosity_warning()
         diffusers.utils.logging.set_verbosity_info()
     else:
+        # Настраиваем логирование для остальных
         transformers.utils.logging.set_verbosity_error()
         diffusers.utils.logging.set_verbosity_error()
 
@@ -745,9 +756,11 @@ def main(args):
     # Handle the repository creation
     if accelerator.is_main_process:
         if args.output_dir is not None:
+            # создаем output директорию
             os.makedirs(args.output_dir, exist_ok=True)
 
         if args.push_to_hub:
+            # Создаем репозиторий на hugging face
             repo_id = create_repo(
                 repo_id=args.hub_model_id or Path(args.output_dir).name,
                 exist_ok=True,
@@ -756,11 +769,26 @@ def main(args):
             ).repo_id
 
     # Load the tokenizers
+    # Загружаем токенайзер из 'stabilityai/stable-diffusion-xl-base-1.0
+    #Tokenizers are one of the core components of the NLP pipeline.
+    # They serve one purpose: to translate text into data that can be processed by the model.
+    # Models can only process numbers, so tokenizers need to convert our text inputs to numerical data.
+    # In this section, we’ll explore exactly what happens in the tokenization pipeline.
+    # Разбивает текст на токены и кодирует их в индексы токенов
+    # Далее индексы можно использовать для индексации эмбеддингов токенов
+    #!!! Подробнее про токенайзеры https://huggingface.co/learn/nlp-course/chapter2/4?fw=pt
+
+    # В данном случае используется CLIPTokenizer, он использует  byte-level Byte-Pair-Encoding.
+    #!!! Подробнее про Byte-Pair-Encoding (https://huggingface.co/learn/nlp-course/chapter6/5?fw=pt)
+
+    # В папке токенайзера лежит vocab.json в котором можно посмотреть
+    # Какие слова он закодирует в какие индексы
+
     tokenizer_one = AutoTokenizer.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="tokenizer",
-        revision=args.revision,
-        use_fast=False,
+        subfolder="tokenizer",  # папка токенайзера (лежит в .cache/huggingface
+        revision=args.revision,  # The specific model version to use. It can be a branch name, a tag name, or a commit id
+        use_fast=False,  # Есть быстрая версия токенайзера
     )
     tokenizer_two = AutoTokenizer.from_pretrained(
         args.pretrained_model_name_or_path,
