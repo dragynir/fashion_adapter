@@ -27,7 +27,7 @@ import accelerate
 import numpy as np
 import torch
 import torch.utils.checkpoint
-import transformers
+import transformers  # Считай новый pytorch timm с множеством мультимодальных моделей (токенайзеры, text-encoders, vae etc.) (https://github.com/huggingface/transformers)
 from accelerate import Accelerator
 from accelerate.logging import get_logger
 from accelerate.utils import ProjectConfiguration, set_seed
@@ -53,14 +53,13 @@ from diffusers.utils.import_utils import is_xformers_available
 from config import training_config
 
 
-MAX_SEQ_LENGTH = 77
-
-if is_wandb_available():
+if is_wandb_available(): # проверяем что wandb установлен через importlib.util.find_spec("wandb")
     import wandb
 
 # Will error if the minimal version of diffusers is not installed. Remove at your own risks.
 check_min_version("0.25.0.dev0")
 
+# Получаем логгер accelerate, который может работать в multiprocess запуске
 logger = get_logger(__name__)
 
 
