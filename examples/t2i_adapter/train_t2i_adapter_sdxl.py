@@ -820,6 +820,8 @@ def main(args):
     # Нужен для добавления/удаления сгенерированного/предсказанного шума с изображения
     # Далее подробно посмотрим в каких частях пайплайна он участвует
     # Конфиг sheduler из .cache/huggingface
+
+    #!!! Подробнее видео про сэмплинг https://www.youtube.com/watch?v=HoKDTa5jHvg&t=934s&ab_channel=Outlier
     # {
     #     "_class_name": "EulerDiscreteScheduler",
     #     "_diffusers_version": "0.19.0.dev0",
