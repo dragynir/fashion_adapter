@@ -954,6 +954,9 @@ def main(args):
         revision=args.revision,
         variant=args.variant,
     )
+
+    # Unet like модель для денойзинга на латентах (pretrained)
+    #
     unet = UNet2DConditionModel.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="unet", revision=args.revision, #, variant=args.variant
     )
