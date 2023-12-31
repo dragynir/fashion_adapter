@@ -66,6 +66,7 @@ check_min_version("0.25.0.dev0")
 logger = get_logger(__name__)
 
 
+# TODO разобрать во время вызова
 def log_validation(vae, unet, adapter, args, accelerator, weight_dtype, step):
     logger.info("Running validation... ")
 
@@ -547,6 +548,7 @@ def parse_args(input_args=None):
     return args
 
 
+# TODO
 def get_train_dataset(args, accelerator):
     # Get the datasets: you can either provide your own training and evaluation files (see below)
     # or specify a Dataset from the hub (the dataset will be downloaded automatically from the datasets Hub).
@@ -611,6 +613,7 @@ def get_train_dataset(args, accelerator):
     return train_dataset
 
 
+# TODO
 # Adapted from pipelines.StableDiffusionXLPipeline.encode_prompt
 def encode_prompt(prompt_batch, text_encoders, tokenizers, proportion_empty_prompts, is_train=True):
     prompt_embeds_list = []
@@ -651,7 +654,7 @@ def encode_prompt(prompt_batch, text_encoders, tokenizers, proportion_empty_prom
     pooled_prompt_embeds = pooled_prompt_embeds.view(bs_embed, -1)
     return prompt_embeds, pooled_prompt_embeds
 
-
+# TODO
 def prepare_train_dataset(dataset, accelerator):
     image_transforms = transforms.Compose(
         [
@@ -688,6 +691,7 @@ def prepare_train_dataset(dataset, accelerator):
     return dataset
 
 
+# TODO
 def collate_fn(examples):
     pixel_values = torch.stack([example["pixel_values"] for example in examples])
     pixel_values = pixel_values.to(memory_format=torch.contiguous_format).float()
