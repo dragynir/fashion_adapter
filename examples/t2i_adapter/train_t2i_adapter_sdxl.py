@@ -911,6 +911,42 @@ def main(args):
         if args.pretrained_vae_model_name_or_path is None
         else args.pretrained_vae_model_name_or_path
     )
+    # Variational Autoencoder, который нужен для создания латентов из изображения и наоборот
+    # Нужен для сжатия изображения
+    # Конфиг
+    #!! Подробнее https://huggingface.co/stabilityai/sdxl-vae
+    # {
+    #     "_class_name": "AutoencoderKL",
+    #     "_diffusers_version": "0.20.0.dev0",
+    #     "_name_or_path": "../sdxl-vae/",
+    #     "act_fn": "silu",
+    #     "block_out_channels": [
+    #         128,
+    #         256,
+    #         512,
+    #         512
+    #     ],
+    #     "down_block_types": [
+    #         "DownEncoderBlock2D",
+    #         "DownEncoderBlock2D",
+    #         "DownEncoderBlock2D",
+    #         "DownEncoderBlock2D"
+    #     ],
+    #     "force_upcast": true,
+    #     "in_channels": 3,
+    #     "latent_channels": 4,
+    #     "layers_per_block": 2,
+    #     "norm_num_groups": 32,
+    #     "out_channels": 3,
+    #     "sample_size": 1024,
+    #     "scaling_factor": 0.13025,
+    #     "up_block_types": [
+    #         "UpDecoderBlock2D",
+    #         "UpDecoderBlock2D",
+    #         "UpDecoderBlock2D",
+    #         "UpDecoderBlock2D"
+    #     ]
+    # }
     vae = AutoencoderKL.from_pretrained(
         vae_path,
         subfolder="vae" if args.pretrained_vae_model_name_or_path is None else None,
