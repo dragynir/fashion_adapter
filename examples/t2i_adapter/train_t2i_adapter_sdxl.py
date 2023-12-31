@@ -792,7 +792,7 @@ def main(args):
 
     tokenizer_one = AutoTokenizer.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="tokenizer",  # папка токенайзера (лежит в .cache/huggingface
+        subfolder="tokenizer",  # папка токенайзера (лежит в .cache/huggingface)
         revision=args.revision,  # The specific model version to use. It can be a branch name, a tag name, or a commit id
         use_fast=False,  # Есть быстрая версия токенайзера
     )
@@ -807,6 +807,7 @@ def main(args):
     )
 
     # import correct text encoder classes
+    # Загружаем классы текстовых энкодеров из их конфигов (лежат в в .cache/huggingface)
     text_encoder_cls_one = import_model_class_from_model_name_or_path(
         args.pretrained_model_name_or_path, args.revision
     )
