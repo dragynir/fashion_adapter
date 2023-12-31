@@ -865,7 +865,7 @@ def main(args):
     #     "num_attention_heads": 12,
     #     "num_hidden_layers": 12,
     #     "pad_token_id": 1,
-    #     "projection_dim": 768,
+    #     "projection_dim": 768, # Размер выходного эмбеддинга
     #     "torch_dtype": "float16",
     #     "transformers_version": "4.32.0.dev0",
     #     "vocab_size": 49408
@@ -895,7 +895,7 @@ def main(args):
     #     "num_attention_heads": 20,
     #     "num_hidden_layers": 32,
     #     "pad_token_id": 1,
-    #     "projection_dim": 1280,
+    #     "projection_dim": 1280,  # Размер выходного эмбеддинга
     #     "torch_dtype": "float16",
     #     "transformers_version": "4.32.0.dev0",
     #     "vocab_size": 49408
