@@ -900,7 +900,6 @@ def main(args):
     #     "transformers_version": "4.32.0.dev0",
     #     "vocab_size": 49408
     # }
-
     text_encoder_two = text_encoder_cls_two.from_pretrained(
         args.pretrained_model_name_or_path, subfolder="text_encoder_2", revision=args.revision #, variant=args.variant
     )
