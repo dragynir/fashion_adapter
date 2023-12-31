@@ -817,7 +817,27 @@ def main(args):
 
     # Load scheduler and models
     # This is a fast scheduler which can often generate good outputs in 20-30 steps
-    #
+    # Нужен для добавления/удаления сгенерированного/предсказанного шума с изображения
+    # Далее подробно посмотрим в каких частях пайплайна он участвует
+    # Конфиг sheduler из .cache/huggingface
+    # {
+    #     "_class_name": "EulerDiscreteScheduler",
+    #     "_diffusers_version": "0.19.0.dev0",
+    #     "beta_end": 0.012,
+    #     "beta_schedule": "scaled_linear",
+    #     "beta_start": 0.00085,
+    #     "clip_sample": false,
+    #     "interpolation_type": "linear",
+    #     "num_train_timesteps": 1000,
+    #     "prediction_type": "epsilon",
+    #     "sample_max_value": 1.0,
+    #     "set_alpha_to_one": false,
+    #     "skip_prk_steps": true,
+    #     "steps_offset": 1,
+    #     "timestep_spacing": "leading",
+    #     "trained_betas": null,
+    #     "use_karras_sigmas": false
+    # }
     noise_scheduler = EulerDiscreteScheduler.from_pretrained(args.pretrained_model_name_or_path, subfolder="scheduler")
 
 
