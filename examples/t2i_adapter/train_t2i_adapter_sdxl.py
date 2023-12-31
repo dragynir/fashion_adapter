@@ -784,6 +784,12 @@ def main(args):
     # В папке токенайзера лежит vocab.json в котором можно посмотреть
     # Какие слова он закодирует в какие индексы
 
+    # Помимо токенов слов есть специальные токены, например в данном случае
+    # bos_token  - начало текста
+    # eos_token - конец текста
+    # pad_token - токен заполнения (чтобы заполнить контекст)
+    # unk_token - если встретили токен которого нет в словаре токенайзера
+
     tokenizer_one = AutoTokenizer.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="tokenizer",  # папка токенайзера (лежит в .cache/huggingface
