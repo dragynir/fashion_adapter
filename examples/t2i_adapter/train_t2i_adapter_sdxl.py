@@ -957,6 +957,10 @@ def main(args):
 
     # Unet like модель для денойзинга на латентах (pretrained)
     # Тут нужно разобраться как добавить свой condition к Unet
+    # Что можно использовать для condition
+    # down_block_additional_residuals: Optional[Tuple[torch.Tensor]] = None,
+    # mid_block_additional_residual: Optional[torch.Tensor] = None,
+    # down_intrablock_additional_residuals: Optional[Tuple[torch.Tensor]] = None,
     # Конфиг
     # {
     #     "_class_name": "UNet2DConditionModel",
