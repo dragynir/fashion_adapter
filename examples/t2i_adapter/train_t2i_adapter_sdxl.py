@@ -796,6 +796,9 @@ def main(args):
         revision=args.revision,  # The specific model version to use. It can be a branch name, a tag name, or a commit id
         use_fast=False,  # Есть быстрая версия токенайзера
     )
+    # SDXL использует два кондишона по тексту; Один и тот же текст кодируется
+    # двумя моделями, а резултат конкатенируется перед замешиванием фичей в Unet
+    # Поэтому у нас тут два токенайзера
     tokenizer_two = AutoTokenizer.from_pretrained(
         args.pretrained_model_name_or_path,
         subfolder="tokenizer_2",
