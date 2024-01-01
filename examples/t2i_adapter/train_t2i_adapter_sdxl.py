@@ -1097,6 +1097,8 @@ def main(args):
     t2iadapter.train()  # Будем обучать веса адаптера так, чтобы он влиял на генерацию
     unet.train()  # Оставляем подсчет градиентов т к они нужны будут для адаптера (но в optimizer добавлять unet не будем)
 
+
+    #!! Подробнее memory efficient attention https://www.photoroom.com/inside-photoroom/stable-diffusion-100-percent-faster-with-memory-efficient-attention
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
             import xformers
