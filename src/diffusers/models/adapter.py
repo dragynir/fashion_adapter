@@ -310,6 +310,8 @@ class FullAdapter(nn.Module):
         #, но увеличили каналы до in_channels - тем самым
         # уменьшили скорость работы сверток в дальнейшем
         self.unshuffle = nn.PixelUnshuffle(downscale_factor)
+
+        # (i + 2 * p - kernel_size) / stride   + 1
         self.conv_in = nn.Conv2d(in_channels, channels[0], kernel_size=3, padding=1)
 
         self.body = nn.ModuleList(
