@@ -1041,12 +1041,17 @@ def main(args):
         t2iadapter = T2IAdapter.from_pretrained(args.adapter_model_name_or_path)
     else:
         logger.info("Initializing t2iadapter weights.")
+
+        # Адаптер нового condition
+        # Энкодер like модель с resnet блоками
+        # Для каждой стадии unet энкодера выдате фичимапу для суммирования
+        # Еще есть MultiAdapter, который уже комбинирует conditions
         t2iadapter = T2IAdapter(
-            in_channels=3,
-            channels=(320, 640, 1280, 1280),
-            num_res_blocks=2,
-            downscale_factor=16,
-            adapter_type="full_adapter_xl",
+            in_channels=3,   # на входе 3-канальное изображение condition
+            channels=(320, 640, 1280, 1280),  # каналы в свертах, после которых они пойдут в unet
+            num_res_blocks=2,  # количество res блоков в каждом downsample блоке
+            downscale_factor=16,  # total downscale входного condition
+            adapter_type="full_adapter_xl", # `full_adapter` or `full_adapter_xl` or `light_adapter`.
         )
 
     # `accelerate` 0.16.0 will have better support for customized saving
