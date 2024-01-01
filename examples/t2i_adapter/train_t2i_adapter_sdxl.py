@@ -663,7 +663,8 @@ def encode_prompt(prompt_batch, text_encoders, tokenizers, proportion_empty_prom
 
     prompt_embeds = torch.concat(prompt_embeds_list, dim=-1)
     pooled_prompt_embeds = pooled_prompt_embeds.view(bs_embed, -1)
-    return prompt_embeds, pooled_prompt_embeds
+    # (batch_size, embedings, embedding_dim)
+    return prompt_embeds, pooled_prompt_embeds  # ((1000, 77, 2048), (1000, 1280))
 
 # TODO
 def prepare_train_dataset(dataset, accelerator):
