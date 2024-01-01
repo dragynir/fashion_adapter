@@ -1054,6 +1054,10 @@ def main(args):
             adapter_type="full_adapter_xl", # `full_adapter` or `full_adapter_xl` or `light_adapter`.
         )
 
+
+
+
+
     # `accelerate` 0.16.0 will have better support for customized saving
     if version.parse(accelerate.__version__) >= version.parse("0.16.0"):
         # create custom saving & loading hooks so that `accelerator.save_state(...)` serializes in a nice format
