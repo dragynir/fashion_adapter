@@ -1142,6 +1142,7 @@ def main(args):
         torch.backends.cuda.matmul.allow_tf32 = True
 
     if args.scale_lr:
+        # Скейлинг learning rate в зависимости от батча (учитываем количество процессов и gradient_accumulation)
         args.learning_rate = (
             args.learning_rate * args.gradient_accumulation_steps * args.train_batch_size * accelerator.num_processes
         )
