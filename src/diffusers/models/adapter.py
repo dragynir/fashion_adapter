@@ -427,6 +427,8 @@ class AdapterBlock(nn.Module):
 
         self.downsample = None
         if down:
+            #  (i + 2 * p - kernel_size) / stride   + 1
+            # downsample в два раза
             self.downsample = nn.AvgPool2d(kernel_size=2, stride=2, ceil_mode=True)
 
         self.in_conv = None
