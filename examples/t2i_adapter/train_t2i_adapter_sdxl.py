@@ -1062,6 +1062,7 @@ def main(args):
     if version.parse(accelerate.__version__) >= version.parse("0.16.0"):
         # create custom saving & loading hooks so that `accelerator.save_state(...)` serializes in a nice format
         def save_model_hook(models, weights, output_dir):
+            """Кастомное сохранение весов адаптера."""
             i = len(weights) - 1
 
             while len(weights) > 0:
@@ -1090,11 +1091,11 @@ def main(args):
         accelerator.register_save_state_pre_hook(save_model_hook)
         accelerator.register_load_state_pre_hook(load_model_hook)
 
-    vae.requires_grad_(False)
-    text_encoder_one.requires_grad_(False)
-    text_encoder_two.requires_grad_(False)
-    t2iadapter.train()
-    unet.train()
+    vae.requires_grad_(False)  # Через vae мы не считаем градиенты, поэтому можем его отключить
+    text_encoder_one.requires_grad_(False)  # Через текстовые энкодеры мы не считаем градиенты
+    text_encoder_two.requires_grad_(False)  # Через текстовые энкодеры мы не считаем градиенты
+    t2iadapter.train()  # Будем обучать веса адаптера так, чтобы он влиял на генерацию
+    unet.train()  # Оставляем подсчет градиентов т к они нужны будут для адаптера (но в optimizer добавлять unet не будем)
 
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
