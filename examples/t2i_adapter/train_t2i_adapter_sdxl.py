@@ -618,6 +618,9 @@ def get_train_dataset(args, accelerator):
 def encode_prompt(prompt_batch, text_encoders, tokenizers, proportion_empty_prompts, is_train=True):
     prompt_embeds_list = []
 
+    # Проходимся по батчу строк и формируем новый
+    # Часть строк зануляем, чтобы модель могла генерировать изображения с condtion
+    # На основе пустого промпта
     captions = []
     for caption in prompt_batch:
         if random.random() < proportion_empty_prompts:
@@ -632,19 +635,27 @@ def encode_prompt(prompt_batch, text_encoders, tokenizers, proportion_empty_prom
         for tokenizer, text_encoder in zip(tokenizers, text_encoders):
             text_inputs = tokenizer(
                 captions,
-                padding="max_length",
-                max_length=tokenizer.model_max_length,
-                truncation=True,
+                padding="max_length",  # будем добавлять pad токены если текст < model_max_length
+                max_length=tokenizer.model_max_length,  # максимальная длина (количество эмбеддингов)
+                truncation=True,  # Обрезаем предложения если они слишком длинные
                 return_tensors="pt",
             )
-            text_input_ids = text_inputs.input_ids
+            text_input_ids = text_inputs.input_ids  # список из id токенов для каждого предложения
             prompt_embeds = text_encoder(
                 text_input_ids.to(text_encoder.device),
-                output_hidden_states=True,
+                output_hidden_states=True,  # text_encoder это трансформер, возьмем еще внутренние эмбеддинги
             )
 
             # We are only ALWAYS interested in the pooled output of the final text encoder
-            pooled_prompt_embeds = prompt_embeds[0]
+            # **Sequence output** is the sequence of hidden-states (embeddings) at the output of the last layer of the BERT model.
+            # It includes the embedding of the [CLS] token. Hence, for the sentence "You are on Stackoverflow",
+            # it gives 5 embeddings: one embedding for each of the four words (assuming the word "Stackoverflow" was tokenized into a single token)
+            # along with the embedding of the [CLS] token.
+
+            # **Pooled output** is the embedding of the [CLS] token (from Sequence output),
+            # further processed by a Linear layer and a Tanh activation function. The Linear layer weights are trained from the next sentence prediction
+            # (classification) objective during pretraining. For further details, please refer to the BERT original paper.
+            pooled_prompt_embeds = prompt_embeds[0]  # Тут у нас эмбеддинги CLS токена, он нужен будет нам один
             prompt_embeds = prompt_embeds.hidden_states[-2]
             bs_embed, seq_len, _ = prompt_embeds.shape
             prompt_embeds = prompt_embeds.view(bs_embed, seq_len, -1)
