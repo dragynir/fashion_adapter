@@ -312,6 +312,7 @@ class FullAdapter(nn.Module):
         self.unshuffle = nn.PixelUnshuffle(downscale_factor)
 
         # (i + 2 * p - kernel_size) / stride   + 1
+        # Первый conv, которые создает изначальные каналы
         self.conv_in = nn.Conv2d(in_channels, channels[0], kernel_size=3, padding=1)
 
         self.body = nn.ModuleList(
