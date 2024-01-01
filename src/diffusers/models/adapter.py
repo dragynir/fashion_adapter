@@ -363,7 +363,15 @@ class FullAdapterXL(nn.Module):
 
         in_channels = in_channels * downscale_factor**2
 
+        # Данной операцией мы берем пиксели, которые рядом (grid размером  (downscale_factor, downscale_factor))
+        # И стакаем эти пиксели друг за другом - переводим их в калалы, тем самым они остались рядом
+        # Но уже в рамках каналов; Так мы уменьшили ширину и высоту (на (downscale_factor, downscale_factor))
+        # , но увеличили каналы до in_channels - тем самым
+        # уменьшили скорость работы сверток в дальнейшем
         self.unshuffle = nn.PixelUnshuffle(downscale_factor)
+
+        # (i + 2 * p - kernel_size) / stride   + 1
+        # Первый conv, которые создает изначальные каналы
         self.conv_in = nn.Conv2d(in_channels, channels[0], kernel_size=3, padding=1)
 
         self.body = []
@@ -390,6 +398,7 @@ class FullAdapterXL(nn.Module):
 
         features = []
 
+        # Получаем фичи для каждой стадии unet
         for block in self.body:
             x = block(x)
             features.append(x)
