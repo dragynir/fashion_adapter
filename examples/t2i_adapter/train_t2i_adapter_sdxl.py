@@ -1114,6 +1114,15 @@ def main(args):
             raise ValueError("xformers is not available. Make sure it is installed correctly")
 
     if args.gradient_checkpointing:
+        # Even when we set the batch size to 1 and use gradient accumulation we can still run out of memory when working with large models.
+        # In order to compute the gradients during the backward pass all activations from the forward pass are normally saved.
+        # This can create a big memory overhead. Alternatively, one could forget all activations during the forward pass and recompute
+        # them on demand during the backward pass. This would however add a significant computational overhead and slow down training.
+        # Gradient checkpointing strikes a compromise between the two approaches and saves strategically selected activations throughout
+        # the computational graph so only a fraction of the activations need to be re-computed for the gradients.
+        # See this great article explaining the ideas behind gradient checkpointing.
+        #!! Подробнее https://aman.ai/primers/ai/grad-accum-checkpoint/
+        #!! Подробнее https://huggingface.co/docs/transformers/v4.18.0/en/performance
         unet.enable_gradient_checkpointing()
 
     # Check that all trainable models are in full precision
