@@ -1168,10 +1168,10 @@ def main(args):
     params_to_optimize = t2iadapter.parameters()
     optimizer = optimizer_class(
         params_to_optimize,
-        lr=args.learning_rate,
-        betas=(args.adam_beta1, args.adam_beta2),
-        weight_decay=args.adam_weight_decay,
-        eps=args.adam_epsilon,
+        lr=args.learning_rate,  # learning rate
+        betas=(args.adam_beta1, args.adam_beta2),  # первый и второй моменты (на сколько доверяем шагу)
+        weight_decay=args.adam_weight_decay,  # l2 регуляризация весов
+        eps=args.adam_epsilon,  # для стабильности деления
     )
 
     # For mixed precision training we cast the text_encoder and vae weights to half-precision
