@@ -1196,9 +1196,10 @@ def main(args):
     # needed for the SD XL UNet to operate.
     def compute_embeddings(batch, proportion_empty_prompts, text_encoders, tokenizers, is_train=True):
         # TODO
-        original_size = (args.resolution, args.resolution)
-        target_size = (args.resolution, args.resolution)
-        crops_coords_top_left = (args.crops_coords_top_left_h, args.crops_coords_top_left_w)
+        original_size = (args.resolution, args.resolution)  # размеры изображения 1024
+        target_size = (args.resolution, args.resolution)  # размеры изображения 1024
+        # Если захотим обучить чтобы верхний левый угол был не в дефолтном месте, можем поменять
+        crops_coords_top_left = (args.crops_coords_top_left_h, args.crops_coords_top_left_w) # координаты верхнего левого угла изображения (0, 0) default
         prompt_batch = batch[args.caption_column]
 
         prompt_embeds, pooled_prompt_embeds = encode_prompt(
