@@ -1149,6 +1149,9 @@ def main(args):
 
     # Use 8-bit Adam for lower memory usage or to fine-tune the model in 16GB GPUs
     if args.use_8bit_adam:
+        # The optimizer is responsible for computing the gradient statistics for back propagation.
+        # These calculations are typically done on 32-bit values,
+        # but this notebook demonstrates how to use an 8-bit optimizer that saves memory and increases speed
         try:
             import bitsandbytes as bnb
         except ImportError:
