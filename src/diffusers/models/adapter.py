@@ -306,7 +306,8 @@ class FullAdapter(nn.Module):
 
         # Данной операцией мы берем пиксели, которые рядом (grid размером  (downscale_factor, downscale_factor))
         # И стакаем эти пиксели друг за другом - переводим их в калалы, тем самым они остались рядом
-        # Но уже в рамках каналов; Так мы уменьшили ширину и высоту, но увеличили каналы - тем самым
+        # Но уже в рамках каналов; Так мы уменьшили ширину и высоту (на (downscale_factor, downscale_factor))
+        #, но увеличили каналы до in_channels - тем самым
         # уменьшили скорость работы сверток в дальнейшем
         self.unshuffle = nn.PixelUnshuffle(downscale_factor)
         self.conv_in = nn.Conv2d(in_channels, channels[0], kernel_size=3, padding=1)
