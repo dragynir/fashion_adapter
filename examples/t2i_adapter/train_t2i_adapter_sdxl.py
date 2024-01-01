@@ -1214,6 +1214,9 @@ def main(args):
         crops_coords_top_left = (args.crops_coords_top_left_h, args.crops_coords_top_left_w) # координаты верхнего левого угла изображения (0, 0) default
         prompt_batch = batch[args.caption_column]
 
+
+
+        # TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         prompt_embeds, pooled_prompt_embeds = encode_prompt(
             prompt_batch, text_encoders, tokenizers, proportion_empty_prompts, is_train
         )
