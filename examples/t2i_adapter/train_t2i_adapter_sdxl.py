@@ -422,7 +422,7 @@ def parse_args(input_args=None):
     parser.add_argument(
         "--train_data_dir",
         type=str,
-        default=None,
+        default=training_config.train_data_dir,
         help=(
             "A folder containing the training data. Folder contents must follow the structure described in"
             " https://huggingface.co/docs/datasets/image_dataset#imagefolder. In particular, a `metadata.jsonl` file"
