@@ -4,7 +4,7 @@ from PIL import Image
 from transformers import PretrainedConfig
 
 
-def image_grid(imgs: List[Image], rows: int, cols: int) -> Image:
+def image_grid(imgs, rows: int, cols: int) -> Image:
     """Creates image grid from list of images."""
 
     assert len(imgs) == rows * cols
