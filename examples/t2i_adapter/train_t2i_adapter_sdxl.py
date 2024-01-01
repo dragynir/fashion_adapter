@@ -1195,6 +1195,7 @@ def main(args):
     # Here, we compute not just the text embeddings but also the additional embeddings
     # needed for the SD XL UNet to operate.
     def compute_embeddings(batch, proportion_empty_prompts, text_encoders, tokenizers, is_train=True):
+        # TODO
         original_size = (args.resolution, args.resolution)
         target_size = (args.resolution, args.resolution)
         crops_coords_top_left = (args.crops_coords_top_left_h, args.crops_coords_top_left_w)
@@ -1218,6 +1219,7 @@ def main(args):
         return {"prompt_embeds": prompt_embeds, **unet_added_cond_kwargs}
 
     def get_sigmas(timesteps, n_dim=4, dtype=torch.float32):
+        # TODO
         sigmas = noise_scheduler.sigmas.to(device=accelerator.device, dtype=dtype)
         schedule_timesteps = noise_scheduler.timesteps.to(accelerator.device)
         timesteps = timesteps.to(accelerator.device)
