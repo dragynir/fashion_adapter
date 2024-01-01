@@ -1231,6 +1231,8 @@ def main(args):
             sigma = sigma.unsqueeze(-1)
         return sigma
 
+
+
     # Let's first compute all the embeddings so that we can free up the text encoders
     # from memory.
     text_encoders = [text_encoder_one, text_encoder_two]
