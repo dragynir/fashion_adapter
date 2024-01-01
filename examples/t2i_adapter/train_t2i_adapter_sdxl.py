@@ -1099,6 +1099,7 @@ def main(args):
 
 
     #!! Подробнее memory efficient attention https://www.photoroom.com/inside-photoroom/stable-diffusion-100-percent-faster-with-memory-efficient-attention
+    #!! Подробнее https://arxiv.org/pdf/2205.14135.pdf
     if args.enable_xformers_memory_efficient_attention:
         if is_xformers_available():
             import xformers
