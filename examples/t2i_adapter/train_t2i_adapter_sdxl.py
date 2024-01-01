@@ -1237,6 +1237,8 @@ def main(args):
     # from memory.
     text_encoders = [text_encoder_one, text_encoder_two]
     tokenizers = [tokenizer_one, tokenizer_two]
+
+
     train_dataset = get_train_dataset(args, accelerator)
     compute_embeddings_fn = functools.partial(
         compute_embeddings,
