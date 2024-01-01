@@ -1148,6 +1148,7 @@ def main(args):
         )
 
     # Use 8-bit Adam for lower memory usage or to fine-tune the model in 16GB GPUs
+    # В нем есть quantization trick, который не сильно ухудшает качество
     if args.use_8bit_adam:
         # The optimizer is responsible for computing the gradient statistics for back propagation.
         # These calculations are typically done on 32-bit values,
