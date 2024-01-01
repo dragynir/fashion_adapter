@@ -339,6 +339,7 @@ class FullAdapter(nn.Module):
 
         features = []
 
+        # Получаем фичи для каждой стадии unet
         for block in self.body:
             x = block(x)
             features.append(x)
